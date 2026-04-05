@@ -51,7 +51,9 @@ const DEMO_ACCOUNTS = {
 
 const API_BASE_URL = (
   import.meta.env.VITE_API_BASE_URL ||
-  "https://finance-dashboard-api.onrender.com"
+  (import.meta.env.DEV
+    ? ""
+    : "https://zorvyn-finance-dashboard-api.onrender.com")
 ).replace(/\/$/, "");
 
 function todayString() {
@@ -342,9 +344,10 @@ async function readResponseError(response) {
 }
 
 async function fetchJson(path, token, init = {}) {
-  const resolvedPath = /^https?:\/\//i.test(path)
-    ? path
-    : new URL(path, `${API_BASE_URL}/`).toString();
+  const resolvedPath =
+    /^https?:\/\//i.test(path) || !API_BASE_URL
+      ? path
+      : new URL(path, `${API_BASE_URL}/`).toString();
 
   const response = await fetch(resolvedPath, {
     ...init,

@@ -164,6 +164,6 @@ The Render service is configured to:
 3. Enable the demo bootstrap admin account for login testing
 4. Allow the GitHub Pages frontend origin through CORS
 
-After importing the Blueprint into Render, the API will be available at the service URL that Render assigns.
+After importing the Blueprint into Render, the API will be available at the service URL that Render assigns. The configured service name is `zorvyn-finance-dashboard-api`, so the expected public URL is `https://zorvyn-finance-dashboard-api.onrender.com`.
 
 Demo login for the deployed API: `admin@example.com` / `Admin123!`.
