@@ -49,6 +49,11 @@ const DEMO_ACCOUNTS = {
   },
 };
 
+const API_BASE_URL = (
+  import.meta.env.VITE_API_BASE_URL ||
+  "https://finance-dashboard-api.onrender.com"
+).replace(/\/$/, "");
+
 function todayString() {
   return new Date().toISOString().slice(0, 10);
 }
@@ -337,7 +342,11 @@ async function readResponseError(response) {
 }
 
 async function fetchJson(path, token, init = {}) {
-  const response = await fetch(path, {
+  const resolvedPath = /^https?:\/\//i.test(path)
+    ? path
+    : new URL(path, `${API_BASE_URL}/`).toString();
+
+  const response = await fetch(resolvedPath, {
     ...init,
     headers: buildHeaders(token, init.body),
   });
