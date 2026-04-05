@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: finance-dashboard-api
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    autoDeployTrigger: commit
+    healthCheckPath: /health
+    envVars:
+      - key: DATABASE_URL
+        value: sqlite:///./finance_data.db
+      - key: JWT_SECRET_KEY
+        generateValue: true
+      - key: AUTO_CREATE_TABLES
+        value: "true"
+      - key: CORS_ORIGINS
+        value: https://vkk-rawat.github.io/-Zorvyn-Assignement/
+      - key: BOOTSTRAP_ADMIN_ENABLED
+        value: "true"
+      - key: BOOTSTRAP_ADMIN_NAME
+        value: Finance Admin
+      - key: BOOTSTRAP_ADMIN_EMAIL
+        value: admin@example.com
+      - key: BOOTSTRAP_ADMIN_PASSWORD
+        value: Admin123!

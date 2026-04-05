@@ -152,3 +152,18 @@ For the full local demo, run the backend and frontend together, then sign in usi
 The frontend is published on GitHub Pages at [https://vkk-rawat.github.io/-Zorvyn-Assignement/](https://vkk-rawat.github.io/-Zorvyn-Assignement/).
 
 The live site shows the dashboard UI and uses mock fallback data when the backend API is not reachable from the browser.
+
+## 11. Render Deployment
+
+The repository now includes [render.yaml](render.yaml) for deploying the backend API on Render.
+
+The Render service is configured to:
+
+1. Build the Docker image from [Dockerfile](Dockerfile)
+2. Serve the API on Render's assigned `PORT`
+3. Enable the demo bootstrap admin account for login testing
+4. Allow the GitHub Pages frontend origin through CORS
+
+After importing the Blueprint into Render, the API will be available at the service URL that Render assigns.
+
+Demo login for the deployed API: `admin@example.com` / `Admin123!`.
