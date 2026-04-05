@@ -146,3 +146,9 @@ Entry points:
 - `src/App.jsx` mounts [FinanceDashboard.jsx](FinanceDashboard.jsx)
 
 For the full local demo, run the backend and frontend together, then sign in using the role selector on the login screen.
+
+## 10. Live Demo
+
+The frontend is published on GitHub Pages at [https://vkk-rawat.github.io/-Zorvyn-Assignement/](https://vkk-rawat.github.io/-Zorvyn-Assignement/).
+
+The live site shows the dashboard UI and uses mock fallback data when the backend API is not reachable from the browser.
