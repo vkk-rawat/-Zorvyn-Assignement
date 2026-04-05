@@ -15,67 +15,67 @@ Production-structured FastAPI backend for user administration, JWT authenticatio
 
 ### `users`
 
-| Column | Type | Notes |
-| --- | --- | --- |
-| `id` | Integer | Primary key |
-| `name` | String(100) | Required |
-| `email` | String(255) | Unique, indexed |
-| `password_hash` | String(255) | Secure password hash |
-| `role` | Enum | `viewer`, `analyst`, `admin` |
-| `status` | Enum | `active`, `inactive` |
-| `created_at` | DateTime | UTC timestamp |
-| `updated_at` | DateTime | UTC timestamp |
+| Column          | Type        | Notes                        |
+| --------------- | ----------- | ---------------------------- |
+| `id`            | Integer     | Primary key                  |
+| `name`          | String(100) | Required                     |
+| `email`         | String(255) | Unique, indexed              |
+| `password_hash` | String(255) | Secure password hash         |
+| `role`          | Enum        | `viewer`, `analyst`, `admin` |
+| `status`        | Enum        | `active`, `inactive`         |
+| `created_at`    | DateTime    | UTC timestamp                |
+| `updated_at`    | DateTime    | UTC timestamp                |
 
 ### `categories`
 
-| Column | Type | Notes |
-| --- | --- | --- |
-| `id` | Integer | Primary key |
-| `name` | String(80) | Indexed |
-| `record_type` | Enum | `income`, `expense` |
-| `description` | Text | Optional |
-| `is_active` | Boolean | Allows deactivation without deleting history |
-| `created_at` | DateTime | UTC timestamp |
-| `updated_at` | DateTime | UTC timestamp |
+| Column        | Type       | Notes                                        |
+| ------------- | ---------- | -------------------------------------------- |
+| `id`          | Integer    | Primary key                                  |
+| `name`        | String(80) | Indexed                                      |
+| `record_type` | Enum       | `income`, `expense`                          |
+| `description` | Text       | Optional                                     |
+| `is_active`   | Boolean    | Allows deactivation without deleting history |
+| `created_at`  | DateTime   | UTC timestamp                                |
+| `updated_at`  | DateTime   | UTC timestamp                                |
 
 ### `financial_records`
 
-| Column | Type | Notes |
-| --- | --- | --- |
-| `id` | Integer | Primary key |
-| `amount` | Numeric(12,2) | Positive amount |
-| `type` | Enum | `income`, `expense` |
-| `category_id` | Integer | FK to `categories.id` |
-| `date` | Date | Transaction date |
-| `notes` | Text | Optional |
-| `created_by` | Integer | FK to `users.id` |
-| `created_at` | DateTime | UTC timestamp |
-| `updated_at` | DateTime | UTC timestamp |
-| `deleted_at` | DateTime | Soft-delete marker |
+| Column        | Type          | Notes                 |
+| ------------- | ------------- | --------------------- |
+| `id`          | Integer       | Primary key           |
+| `amount`      | Numeric(12,2) | Positive amount       |
+| `type`        | Enum          | `income`, `expense`   |
+| `category_id` | Integer       | FK to `categories.id` |
+| `date`        | Date          | Transaction date      |
+| `notes`       | Text          | Optional              |
+| `created_by`  | Integer       | FK to `users.id`      |
+| `created_at`  | DateTime      | UTC timestamp         |
+| `updated_at`  | DateTime      | UTC timestamp         |
+| `deleted_at`  | DateTime      | Soft-delete marker    |
 
 ### `refresh_tokens`
 
-| Column | Type | Notes |
-| --- | --- | --- |
-| `id` | Integer | Primary key |
-| `user_id` | Integer | FK to `users.id` |
-| `token_hash` | String(128) | Stored hash of refresh token |
-| `expires_at` | DateTime | Refresh expiry |
-| `created_at` | DateTime | UTC timestamp |
-| `revoked_at` | DateTime | Rotation/logout revocation marker |
+| Column       | Type        | Notes                             |
+| ------------ | ----------- | --------------------------------- |
+| `id`         | Integer     | Primary key                       |
+| `user_id`    | Integer     | FK to `users.id`                  |
+| `token_hash` | String(128) | Stored hash of refresh token      |
+| `expires_at` | DateTime    | Refresh expiry                    |
+| `created_at` | DateTime    | UTC timestamp                     |
+| `revoked_at` | DateTime    | Rotation/logout revocation marker |
 
 ### `audit_logs`
 
-| Column | Type | Notes |
-| --- | --- | --- |
-| `id` | Integer | Primary key |
-| `actor_user_id` | Integer | FK to `users.id`, nullable |
-| `action` | String(100) | Event name such as `record.create` |
-| `entity_type` | String(50) | Target entity type |
-| `entity_id` | String(50) | Target entity id |
-| `status` | String(20) | `success` or `failure` |
-| `details_text` | Text | Serialized context payload |
-| `created_at` | DateTime | UTC timestamp |
+| Column          | Type        | Notes                              |
+| --------------- | ----------- | ---------------------------------- |
+| `id`            | Integer     | Primary key                        |
+| `actor_user_id` | Integer     | FK to `users.id`, nullable         |
+| `action`        | String(100) | Event name such as `record.create` |
+| `entity_type`   | String(50)  | Target entity type                 |
+| `entity_id`     | String(50)  | Target entity id                   |
+| `status`        | String(20)  | `success` or `failure`             |
+| `details_text`  | Text        | Serialized context payload         |
+| `created_at`    | DateTime    | UTC timestamp                      |
 
 ## 3. Folder Structure
 
@@ -130,3 +130,19 @@ For PostgreSQL with Docker:
 1. Install dependencies
 2. Run `python -m pytest -q`
 3. Tests use an isolated in-memory SQLite database
+
+## 9. Frontend Demo
+
+The repository now includes a single-file React frontend built with Vite, Tailwind CSS, and Recharts.
+
+1. Install frontend dependencies: `npm install`
+2. Start the frontend: `npm run dev`
+3. The app proxies `/api` requests to the backend on `http://127.0.0.1:8000`
+
+Entry points:
+
+- `index.html` loads `src/main.jsx`
+- `src/main.jsx` renders `src/App.jsx`
+- `src/App.jsx` mounts [FinanceDashboard.jsx](FinanceDashboard.jsx)
+
+For the full local demo, run the backend and frontend together, then sign in using the role selector on the login screen.

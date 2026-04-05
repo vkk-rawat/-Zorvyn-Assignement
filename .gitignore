@@ -1,0 +1,14 @@
+node_modules/
+dist/
+build/
+coverage/
+.venv/
+.backend-venv/
+.pytest_cache/
+__pycache__/
+*.pyc
+*.db
+.local_server.pid
+.local-server.out.log
+.local-server.err.log
+.env
