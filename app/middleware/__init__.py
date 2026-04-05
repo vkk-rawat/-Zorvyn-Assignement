@@ -1,1 +1,0 @@
-"""Authentication, authorization, and request middleware."""
