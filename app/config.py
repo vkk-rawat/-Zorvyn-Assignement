@@ -1,9 +1,10 @@
 from __future__ import annotations
 
+import json
 from functools import lru_cache
-from typing import List, Optional, Union
+from typing import Optional
 
-from pydantic import Field, field_validator
+from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -17,7 +18,7 @@ class Settings(BaseSettings):
     jwt_algorithm: str = "HS256"
     access_token_expire_minutes: int = 60
     refresh_token_expire_days: int = 7
-    cors_origins: list[str] = Field(default_factory=lambda: ["*"])
+    cors_origins_raw: str = Field(default="*", validation_alias="CORS_ORIGINS")
     auto_create_tables: bool = True
     bootstrap_admin_enabled: bool = False
     bootstrap_admin_name: str = "System Admin"
@@ -33,12 +34,26 @@ class Settings(BaseSettings):
         extra="ignore",
     )
 
-    @field_validator("cors_origins", mode="before")
-    @classmethod
-    def parse_cors_origins(cls, value: Union[str, List[str]]) -> List[str]:
-        if isinstance(value, str):
-            return [origin.strip() for origin in value.split(",") if origin.strip()]
-        return value
+    @property
+    def cors_origins(self) -> list[str]:
+        raw_value = self.cors_origins_raw.strip()
+        if not raw_value:
+            return []
+
+        if raw_value.startswith("["):
+            try:
+                parsed_value = json.loads(raw_value)
+            except json.JSONDecodeError:
+                pass
+            else:
+                if isinstance(parsed_value, list):
+                    return [
+                        str(origin).strip()
+                        for origin in parsed_value
+                        if str(origin).strip()
+                    ]
+
+        return [origin.strip() for origin in raw_value.split(",") if origin.strip()]
 
     @property
     def is_sqlite(self) -> bool:

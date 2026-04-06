@@ -14,7 +14,7 @@ services:
       - key: AUTO_CREATE_TABLES
         value: "true"
       - key: CORS_ORIGINS
-        value: https://vkk-rawat.github.io/-Zorvyn-Assignement/
+        value: '["https://vkk-rawat.github.io/-Zorvyn-Assignement/"]'
       - key: BOOTSTRAP_ADMIN_ENABLED
         value: "true"
       - key: BOOTSTRAP_ADMIN_NAME
