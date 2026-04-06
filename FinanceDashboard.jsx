@@ -53,7 +53,7 @@ const API_BASE_URL = (
   import.meta.env.VITE_API_BASE_URL ||
   (import.meta.env.DEV
     ? ""
-    : "https://zorvyn-finance-dashboard-api.onrender.com")
+    : "https://zorvyn-finance-dashboard-api-667i.onrender.com")
 ).replace(/\/$/, "");
 
 function todayString() {
